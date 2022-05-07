@@ -18,7 +18,7 @@ class Router {
             }
         }
         
-        return new Track('error', 'notFound');
+        return new Track('error', 'notFound', '');
     }
 
     private function createPattern($path) {

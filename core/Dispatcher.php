@@ -1,27 +1,27 @@
 <?php 
-namespace Core;
+	namespace Core;
 
-class Dispatcher {
-    public function getPage(Track $track) {
-        $className = ucfirst($track->controller) . 'Controller';
-		$fullName = "\\app\\Controllers\\$className";
+	class Dispatcher {
+	    public function getPage(Track $track) {
+	        $className = ucfirst($track->controller) . 'Controller';
+			$fullName = "\\app\\Controllers\\$className";
 			
-		try {
-			$controller = new $fullName;
-				
-			if (method_exists($controller, $track->action)) {
-				$result = $controller->{$track->action}($track->params);
-					
-				if ($result) {
-					return $result;
+			try {
+				$controller = new $fullName;
+
+				if (method_exists($controller, $track->action)) {
+					$result = $controller->{$track->action}($track->params);
+
+					if ($result) {
+						return $result;
+					} else {
+						return new Page('default', 'default', 'default', 'default');
+					}
 				} else {
-					return new Page('default');
+					echo "Метод <b>{$track->action}</b> не найден в классе $fullName."; die();
 				}
-			} else {
-				echo "Метод <b>{$track->action}</b> не найден в классе $fullName."; die();
+			} catch (\Exception $error) {
+				echo $error->getMessage(); die();
 			}
-		} catch (\Exception $error) {
-			echo $error->getMessage(); die();
-		}
-    }
-}
+    	}
+	}

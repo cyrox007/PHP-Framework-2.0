@@ -4,6 +4,8 @@
     error_reporting(E_ALL);
     ini_set('display_error', 'on');
 
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/app/config/connection.php';
+
     spl_autoload_register(function($class) {
         $root = $_SERVER['DOCUMENT_ROOT'];
 		$ds = DIRECTORY_SEPARATOR;
@@ -20,4 +22,6 @@
 
     // Вызов диспетчера:
 	$page  = ( new Dispatcher ) -> getPage($track);
+
+    echo (new View)->render($page);
 ?>
